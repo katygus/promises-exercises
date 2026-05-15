@@ -9,6 +9,7 @@
 function mapPromise(promise, transformer){
   return new Promise((resolve, reject) => {
     /* IMPLEMENT ME!! */
+    promise.then(transformer).then(resolve).catch(reject);
   });
 }
 
@@ -21,7 +22,20 @@ function mapPromise(promise, transformer){
  */
 function squarePromise(numberPromise){
   return numberPromise
-    .then(/* IMPLEMENT ME! */);
+    .then(result => {
+      if (typeof result === 'number') {
+        return result * result;
+      }
+      else if (typeof result === 'string' && Number.isFinite(Number(result))) {
+        let numResult = parseInt(result);
+        return numResult * numResult;
+      }
+      else if (isNaN(result)) {
+        throw `Cannot convert '${result}' to a number!`;
+      }
+    }).catch(err => {
+      throw err;
+    });
 }
 
 /**
